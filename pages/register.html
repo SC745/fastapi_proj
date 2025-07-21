@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Register</title>
+    <style>
+        td {padding:5px;}
+        button{margin: 5px;}
+    </style>
+</head>
+<body>
+    <h2>Управление пользователями</h2>
+    <div>
+        <form id="registerForm" name="registerForm">
+            <input type="hidden" id="userId" />
+            <p>
+                Имя:<br/>
+                <input id="userName" name="userName" minlength="3" maxlength="50" required />
+            </p>
+            <p>
+                Логин:<br />
+                <input id="userLogin" name="userLogin" minlength="5" maxlength="20" required />
+            </p>
+            <p>
+                Пароль:<br />
+                <input id="userPassword" name="userPassword" type="password" minlength="5" maxlength="20" required />
+            </p>
+            <p>
+                Зарплата:<br />
+                <input id="userSalary" name="userSalary" type="number" min="0" required />
+            </p>
+            <p>
+                Дата повышения:<br />
+                <input id="userPromdate" name="userPromdate" type="date" required />
+            </p>
+            <p>
+                <button id="saveBtn">Сохранить</button>
+                <button id="resetBtn">Сбросить</button>
+            </p>
+        </form>
+    </div>
+    <table>
+        <thead><tr><th>Имя</th><th>Логин</th><th>Зарплата</th><th>Дата повышения</th><th></th></tr></thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("userPromdate").setAttribute("min", today);
+    </script>
+    <script>
+        async function getUsers() {
+            const token = localStorage.getItem("token");
+            const response = await fetch("/users", {
+                method: "GET",
+                headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
+            });
+            if (response.ok === true) {
+                const users = await response.json();
+                const rows = document.querySelector("tbody");
+                users.forEach(user => rows.append(row(user)));
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+                window.location.href = "/home";
+            }
+        }
+
+        async function getUser(id) {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`/users/${id}`, {
+                method: "GET",
+                headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
+            });
+            if (response.ok === true) {
+                const user = await response.json();
+                document.getElementById("userId").value = user.id;
+                document.getElementById("userName").value = user.name;
+                document.getElementById("userLogin").value = user.login;
+                document.getElementById("userSalary").value = user.salary;
+                document.getElementById("userPromdate").value = user.promdate;
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+                window.location.href = "/home";
+            }
+        }
+
+        async function createUser(userName, userLogin, userPassword, userSalary, userPromdate) {
+            const token = localStorage.getItem("token");
+            const response = await fetch("/users", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                body: JSON.stringify({
+                    name: userName,
+                    login: userLogin,
+                    password: userPassword,
+                    salary: parseInt(userSalary, 10),
+                    promdate: userPromdate
+                })
+            });
+            if (response.ok === true) {
+                const user = await response.json();
+                document.querySelector("tbody").append(row(user));
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+                window.location.href = "/home";
+            }
+        }
+
+        async function editUser(userId, userName, userLogin, userSalary, userPromdate) {
+            const token = localStorage.getItem("token");
+            const response = await fetch("/users", {
+                method: "PUT",
+                headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                body: JSON.stringify({
+                    id: userId,
+                    name: userName,
+                    login: userLogin,
+                    salary: parseInt(userSalary, 10),
+                    promdate: userPromdate
+                })
+            });
+            if (response.ok === true) {
+                const user = await response.json();
+                document.querySelector(`tr[data-rowid='${user.id}']`).replaceWith(row(user));
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+                window.location.href = "/home";
+            }
+        }
+
+        async function deleteUser(id) {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`/users/${id}`, {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
+            });
+            if (response.ok === true) {
+                const user = await response.json();
+                document.querySelector(`tr[data-rowid='${user.id}']`).remove();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+                window.location.href = "/home";
+            }
+        }
+  
+        function reset() {
+            document.getElementById("userId").value = "";
+            document.getElementById("userName").value = "";
+            document.getElementById("userLogin").value = "";
+            document.getElementById("userPassword").value = "";
+            document.getElementById("userSalary").value = "";
+            document.getElementById("userPromdate").value = "";
+        }
+
+        function row(user) {
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", user.id);
+  
+            const nameTd = document.createElement("td");
+            nameTd.append(user.name);
+            tr.append(nameTd);
+
+            const loginTd = document.createElement("td");
+            loginTd.append(user.login);
+            tr.append(loginTd);
+  
+            const salaryTd = document.createElement("td");
+            salaryTd.append(user.salary);
+            tr.append(salaryTd);
+
+            const promdateTd = document.createElement("td");
+            promdateTd.append(user.promdate);
+            tr.append(promdateTd);
+  
+            const linksTd = document.createElement("td");
+  
+            const editLink = document.createElement("button"); 
+            editLink.append("Изменить");
+            editLink.addEventListener("click", async() => await getUser(user.id));
+            linksTd.append(editLink);
+  
+            const removeLink = document.createElement("button"); 
+            removeLink.append("Удалить");
+            removeLink.addEventListener("click", async () => await deleteUser(user.id));
+            linksTd.append(removeLink);
+
+            tr.appendChild(linksTd);
+
+            if (user.login == "admin") {
+                editLink.disabled = true;
+                removeLink.disabled = true;
+            }
+  
+            return tr;
+        }
+
+        function validate() {
+            if (document.registerForm.userLogin.value === "admin") {
+                userLogin.setCustomValidity("Недопустимый логин!");
+                return false;
+            }
+            if (document.registerForm.userName.value === "Администратор") {
+                userName.setCustomValidity("Недопустимое имя пользователя!");
+                return false;
+            }
+
+            return document.registerForm.checkValidity();
+        }
+
+        document.getElementById("resetBtn").addEventListener("click", () =>  reset());
+        document.getElementById("saveBtn").addEventListener("click", async () => {
+            const id = document.getElementById("userId").value;
+            const name = document.getElementById("userName").value;
+            const login = document.getElementById("userLogin").value;
+            const password = document.getElementById("userPassword").value;
+            const salary = document.getElementById("userSalary").value;
+            const promdate = document.getElementById("userPromdate").value;
+            if (validate()) {
+                if (id === "") await createUser(name, login, password, salary, promdate);
+                else await editUser(id, name, login, salary, promdate);
+                reset();
+            }
+        });
+        document.getElementById("registerForm").addEventListener('submit', async () => {event.preventDefault();});
+
+  
+        getUsers();
+    </script>
+</body>
+</html>

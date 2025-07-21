@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Home</title>
+    </head>
+    <body>
+        <div id = "userdata"></div>
+        <button id = "logoutBtn">Выйти</button>
+        <script>
+            async function load_user() {
+                const token = localStorage.getItem("token");
+                const response = await fetch(`/home`, {
+                    method: "POST",
+                    headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                });
+                if (response.ok === true) {
+                    const user = await response.json();
+                    userdata = document.getElementById("userdata");
+                    
+                    const userName = document.createElement("p");
+                    userName.innerText = "Имя: " + user.name;
+                    userdata.appendChild(userName);
+
+                    const userSalary = document.createElement("p");
+                    userSalary.innerText = "Зарплата: " + user.salary;
+                    userdata.appendChild(userSalary);
+
+                    const userPromdate = document.createElement("p");
+                    userPromdate.innerText = "Дата повышения: " + user.promdate;
+                    userdata.appendChild(userPromdate);
+                }
+                else {
+                    const error = await response.json();
+                    console.log(error.message);
+                    window.location.href = "/login";
+                }
+            }
+
+            document.getElementById("logoutBtn").addEventListener("click", async () => { 
+                localStorage.removeItem("token");
+                window.location.href = "/login";
+            });
+
+            load_user();
+        </script>
+    </body>
+</html>
