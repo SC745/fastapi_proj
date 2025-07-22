@@ -1,18 +1,18 @@
 [
     {
-        "id": "9e5ffe62-069c-44ea-8a89-d61968c80098",
-        "name": "Администратор",
+        "id": "f6d4ee26-5911-4661-8388-3f0b16324fa0",
+        "name": "Admin",
         "login": "admin",
-        "hashed_password": "$2b$12$fuyYKGS9E1.lJk15ysxyOu1Ct5BvhjBvhMuXOse7.Cc5qNvt3AA0a",
-        "salary": null,
-        "promdate": null
+        "hashed_password": "$2b$12$Xo.zBxpZV/DJF1z/T7LjCenvlMZqhoOXOERd.xWWiZCbnTYwLPJU6",
+        "salary": 0,
+        "promdate": "0001-01-01"
     },
     {
-        "id": "67649187-9458-4039-87f3-c44aad20a712",
-        "name": "Иванов Иван",
-        "login": "i.ivanov",
-        "hashed_password": "$2b$12$gsoZF9ve/53j47ubRpMBcu3etz.QgZCN1nVniKAhv2HvB1ybfl28q",
-        "salary": 300000,
-        "promdate": "2025-07-22"
+        "id": "c804b92c-6c11-4b8f-93ff-722bcab03c65",
+        "name": "Василий Васильев",
+        "login": "v.vasiliev",
+        "hashed_password": "$2b$12$/K4aj9hRgW6./ndN50g78ubH19trLENSvHBev7O/etftj7oDjG0pu",
+        "salary": 200010,
+        "promdate": "2025-07-30"
     }
 ]

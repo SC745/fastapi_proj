@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Logout</title>
+    </head>
+    <body>
+        <div>Время сессии истекло. Выполните вход заново.</div>
+        <p>
+            <button id = "logoutBtn">На страницу входа</button>
+        </p>
+        <script>
+            async function checkExpiration(userLogin, userPassword) {
+                const token = localStorage.getItem("token");
+                const response = await fetch(`/home`, {
+                    method: "POST",
+                    headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                });
+                if (response.ok) window.location.href = "/home";
+            }
+
+            document.getElementById("logoutBtn").addEventListener("click", async () => window.location.href = "/login");
+            checkExpiration()
+        </script>
+    </body>
+</html>

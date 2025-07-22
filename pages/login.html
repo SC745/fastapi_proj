@@ -20,13 +20,16 @@
                 Пароль:<br />
                 <input id="userPassword" name="userPassword" type="password" maxlength="100" required />
             </p>
+            <p id = "error" style="display: none;">Неверный логин или пароль</p>
             <p>
                 <button id="loginBtn">Войти</button>
             </p>
         </form>
     </div>
     <script>
-        async function authentificateUser(userLogin, userPassword) {
+        localStorage.removeItem("token");
+
+        async function authUser(userLogin, userPassword) {
             const response = await fetch(`/login`, {
                 method: "POST",
                 headers: { "Accept": "application/json", "Content-Type": "application/json" },
@@ -35,22 +38,24 @@
                     password: userPassword,
                 })
             });
-            if (response.ok === true) {
+            if (response.ok) {
                 const token = await response.json();
                 localStorage.setItem("token", token.access_token);
                 window.location.href = "/home";
             }
             else {
                 const error = await response.json();
-                console.log(error.message);
+                if (error.detail == "Incorrect username or password") {
+                    error_container = document.getElementById("error");
+                    error_container.setAttribute("style", "display: block; color: crimson;")
+                }
             }
         }
-
 
         document.getElementById("loginBtn").addEventListener("click", async () => {
             const login = document.getElementById("userLogin").value;
             const password = document.getElementById("userPassword").value;
-            if (document.loginForm.checkValidity()) authentificateUser(login, password);
+            if (document.loginForm.checkValidity()) authUser(login, password);
         });
         document.getElementById("loginForm").addEventListener('submit', async () => {event.preventDefault();});
     </script>

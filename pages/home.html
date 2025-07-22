@@ -14,7 +14,7 @@
                     method: "POST",
                     headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
                 });
-                if (response.ok === true) {
+                if (response.ok) {
                     const user = await response.json();
                     userdata = document.getElementById("userdata");
                     
@@ -32,8 +32,8 @@
                 }
                 else {
                     const error = await response.json();
-                    console.log(error.message);
-                    window.location.href = "/login";
+                    console.log(error.detail);
+                    if (error.detail == "Expired token") window.location.href = "/logout";
                 }
             }
 

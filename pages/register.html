@@ -54,14 +54,14 @@
                 method: "GET",
                 headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
             });
-            if (response.ok === true) {
+            if (response.ok) {
                 const users = await response.json();
                 const rows = document.querySelector("tbody");
                 users.forEach(user => rows.append(row(user)));
             }
             else {
                 const error = await response.json();
-                console.log(error.message);
+                console.log(error.detail);
                 window.location.href = "/home";
             }
         }
@@ -72,7 +72,7 @@
                 method: "GET",
                 headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
             });
-            if (response.ok === true) {
+            if (response.ok) {
                 const user = await response.json();
                 document.getElementById("userId").value = user.id;
                 document.getElementById("userName").value = user.name;
@@ -82,7 +82,7 @@
             }
             else {
                 const error = await response.json();
-                console.log(error.message);
+                console.log(error.detail);
                 window.location.href = "/home";
             }
         }
@@ -100,13 +100,13 @@
                     promdate: userPromdate
                 })
             });
-            if (response.ok === true) {
+            if (response.ok) {
                 const user = await response.json();
                 document.querySelector("tbody").append(row(user));
             }
             else {
                 const error = await response.json();
-                console.log(error.message);
+                console.log(error.detail);
                 window.location.href = "/home";
             }
         }
@@ -124,13 +124,13 @@
                     promdate: userPromdate
                 })
             });
-            if (response.ok === true) {
+            if (response.ok) {
                 const user = await response.json();
                 document.querySelector(`tr[data-rowid='${user.id}']`).replaceWith(row(user));
             }
             else {
                 const error = await response.json();
-                console.log(error.message);
+                console.log(error.detail);
                 window.location.href = "/home";
             }
         }
@@ -141,13 +141,13 @@
                 method: "DELETE",
                 headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
             });
-            if (response.ok === true) {
+            if (response.ok) {
                 const user = await response.json();
                 document.querySelector(`tr[data-rowid='${user.id}']`).remove();
             }
             else {
                 const error = await response.json();
-                console.log(error.message);
+                console.log(error.detail);
                 window.location.href = "/home";
             }
         }
@@ -208,7 +208,7 @@
                 userLogin.setCustomValidity("Недопустимый логин!");
                 return false;
             }
-            if (document.registerForm.userName.value === "Администратор") {
+            if (document.registerForm.userName.value === "Admin") {
                 userName.setCustomValidity("Недопустимое имя пользователя!");
                 return false;
             }
