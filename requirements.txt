@@ -2,4 +2,5 @@ fastapi
 pyjwt
 uvicorn
 passlib
+dotenv
 bcrypt==4.0.1

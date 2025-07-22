@@ -2,15 +2,19 @@ import json
 import uuid
 import bcrypt
 import jwt
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, Body, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordBearer
 from datetime import datetime, timedelta
 
-SECRET_KEY = "my_secret_key"
-ALGORITHM = "HS256"
-EXPIRATION_TIME = timedelta(minutes = 5)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = "/token")
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+EXPIRATION_TIME = timedelta(minutes = 5)
 
 
 class Token:
