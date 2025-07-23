@@ -3,6 +3,7 @@ import uuid
 import bcrypt
 import jwt
 import os
+import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, Body, HTTPException
 from fastapi.responses import FileResponse
@@ -179,3 +180,7 @@ def register_page():
 @app.get("/home")
 def register_page():
     return FileResponse("pages/home.html")
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="localhost", port=8000, reload=True)
