@@ -8,11 +8,19 @@
         "promdate": "0001-01-01"
     },
     {
-        "id": "c804b92c-6c11-4b8f-93ff-722bcab03c65",
-        "name": "Василий Васильев",
-        "login": "v.vasiliev",
-        "hashed_password": "$2b$12$/K4aj9hRgW6./ndN50g78ubH19trLENSvHBev7O/etftj7oDjG0pu",
-        "salary": 200010,
-        "promdate": "2025-07-30"
+        "id": "1d4f4210-e21a-4d25-bb43-84f9f89f5b94",
+        "name": "Пётр Петров",
+        "login": "petrov",
+        "hashed_password": "$2b$12$wLo7.a4OsJUD/1309y5CXOg.KWK0i5FvSASOao98MKd3uf0l.BHDK",
+        "salary": 222224,
+        "promdate": "2025-07-31"
+    },
+    {
+        "id": "1cee80e7-344d-4a85-a544-15993f3988dd",
+        "name": "vasiliev",
+        "login": "petrov123",
+        "hashed_password": "$2b$12$XYDz31TQ6fEL3tMyaxOr7u5xvQZw5qZsRN/LvqX2CR0HRPcUQNbPy",
+        "salary": 2025,
+        "promdate": "2025-07-31"
     }
 ]

@@ -2,13 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Logout</title>
+        <title>Root</title>
     </head>
     <body>
-        <div>Время сессии истекло. Выполните вход заново.</div>
-        <p>
-            <button id = "logoutBtn">На страницу входа</button>
-        </p>
         <script>
             async function checkLoggedUser(userLogin, userPassword) {
                 const token = localStorage.getItem("token");
@@ -17,9 +13,13 @@
                     headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
                 });
                 if (response.ok) window.location.href = "/home";
+                else {
+                    error = await response.json();
+                    if (error.detail == "Неверный токен") window.location.href = "/login";
+                    if (error.detail == "Время сессии истекло") window.location.href = "/logout";
+                    if (error.detail == "Пользователь не найден") window.location.href = "/login";
+                }
             }
-
-            document.getElementById("logoutBtn").addEventListener("click", async () => window.location.href = "/login");
             checkLoggedUser()
         </script>
     </body>

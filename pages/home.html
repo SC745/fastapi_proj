@@ -5,12 +5,16 @@
         <title>Home</title>
     </head>
     <body>
+        <header>
+            <button id = "logoutBtn" style="display: block; margin-left: auto; margin-right: 0;">Выйти</button>
+            <hr>
+        </header>
         <div id = "userdata"></div>
-        <button id = "logoutBtn">Выйти</button>
+        <button id = "regBtn" style="display: none;">Регистрация пользователей</button>
         <script>
-            async function load_user() {
+            async function checkLoggedUser() {
                 const token = localStorage.getItem("token");
-                const response = await fetch(`/home`, {
+                const response = await fetch(`/`, {
                     method: "POST",
                     headers: { "Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer " + token },
                 });
@@ -29,20 +33,22 @@
                     const userPromdate = document.createElement("p");
                     userPromdate.innerText = "Дата повышения: " + user.promdate;
                     userdata.appendChild(userPromdate);
+
+                    if (user.login == "admin") {
+                        regBtn = document.getElementById("regBtn");
+                        regBtn.style.display = "block"
+                    }
                 }
                 else {
                     const error = await response.json();
                     console.log(error.detail);
-                    if (error.detail == "Expired token") window.location.href = "/logout";
+                    if (error.detail == "Время сессии истекло") window.location.href = "/logout";
                 }
             }
 
-            document.getElementById("logoutBtn").addEventListener("click", async () => { 
-                localStorage.removeItem("token");
-                window.location.href = "/login";
-            });
-
-            load_user();
+            document.getElementById("logoutBtn").addEventListener("click", async () => window.location.href = "/login");
+            document.getElementById("regBtn").addEventListener("click", async () => window.location.href = "/register");
+            checkLoggedUser();
         </script>
     </body>
 </html>

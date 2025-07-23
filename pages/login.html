@@ -20,7 +20,7 @@
                 Пароль:<br />
                 <input id="userPassword" name="userPassword" type="password" maxlength="100" required />
             </p>
-            <p id = "error" style="display: none;">Неверный логин или пароль</p>
+            <p id = "error_container" style="display: none; color: crimson;">Неверный логин или пароль</p>
             <p>
                 <button id="loginBtn">Войти</button>
             </p>
@@ -45,9 +45,9 @@
             }
             else {
                 const error = await response.json();
-                if (error.detail == "Incorrect username or password") {
-                    error_container = document.getElementById("error");
-                    error_container.setAttribute("style", "display: block; color: crimson;")
+                if (error.detail == "Неверный логин или пароль") {
+                    error_container = document.getElementById("error_container");
+                    error_container.style.display = "block";
                 }
             }
         }
