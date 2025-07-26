@@ -222,6 +222,7 @@
 
         function error_processing(error_detail) {
             if (error_detail == "Неверный токен") window.location.href = "/login";
+            if (error_detail == "Нет прав доступа") window.location.href = "/home";
             if (error_detail == "Время сессии истекло") window.location.href = "/logout";
             if (error_detail == "Пользователь не найден") window.location.href = "/login";
 

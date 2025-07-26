@@ -6,21 +6,5 @@
         "hashed_password": "$2b$12$Xo.zBxpZV/DJF1z/T7LjCenvlMZqhoOXOERd.xWWiZCbnTYwLPJU6",
         "salary": 0,
         "promdate": "0001-01-01"
-    },
-    {
-        "id": "1d4f4210-e21a-4d25-bb43-84f9f89f5b94",
-        "name": "Пётр Петров",
-        "login": "petrov",
-        "hashed_password": "$2b$12$wLo7.a4OsJUD/1309y5CXOg.KWK0i5FvSASOao98MKd3uf0l.BHDK",
-        "salary": 222224,
-        "promdate": "2025-07-31"
-    },
-    {
-        "id": "1cee80e7-344d-4a85-a544-15993f3988dd",
-        "name": "vasiliev",
-        "login": "petrov123",
-        "hashed_password": "$2b$12$XYDz31TQ6fEL3tMyaxOr7u5xvQZw5qZsRN/LvqX2CR0HRPcUQNbPy",
-        "salary": 2025,
-        "promdate": "2025-07-31"
     }
 ]

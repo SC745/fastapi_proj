@@ -24,7 +24,7 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
-EXPIRATION_TIME = timedelta(minutes = 1)
+EXPIRATION_TIME = timedelta(minutes = 30)
 
 
 class Token:
